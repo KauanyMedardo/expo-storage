@@ -1,10 +1,24 @@
 import React, { useState } from "react"
 import { Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from "react-native"
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function NotaEditor() {
 
   const [texto, setTexto] = useState("")
   const [modalVisivel, setModalVisivel] = useState(false)
+
+async function salvanota(){
+  const umaNota = {
+    id: "1",
+    texto: texto,
+  }
+  await AsyncStorage.setItem(umaNota.id, umaNota.texto)
+  mostraNota();
+}
+  async function mostraNota(){
+    console.log(await AsyncStorage.getItem("1"));
+  }
+
 
   return(
     <>
@@ -27,7 +41,7 @@ export default function NotaEditor() {
                 placeholder="Digite aqui seu lembrete"
                 value={texto}/>
               <View style={estilos.modalBotoes}>
-                <TouchableOpacity style={estilos.modalBotaoSalvar}>
+                <TouchableOpacity style={estilos.modalBotaoSalvar} onPress={salvanota()}>
                   <Text style={estilos.modalBotaoTexto}>Salvar</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={estilos.modalBotaoCancelar} onPress={() => {setModalVisivel(false)}}>
@@ -73,6 +87,8 @@ const estilos = StyleSheet.create({
     fontSize: 28,
     fontWeight: "600",
     marginBottom: 18,
+     color: "#c9146eff",
+ 
   },
   modalInput: {
     fontSize: 18,
@@ -97,7 +113,7 @@ const estilos = StyleSheet.create({
     justifyContent: "space-between"
   },
   modalBotaoSalvar: {
-    backgroundColor: "#2ea805",
+    backgroundColor: "#e91276ff",
     borderRadius: 5,
     padding: 8,
     width: 80,
@@ -121,7 +137,7 @@ const estilos = StyleSheet.create({
     color: "#FFFFFF",
   },
   adicionarMemo: {
-    backgroundColor: "#54ba32",
+    backgroundColor: "#ee55a2ff",
     justifyContent: "center",
     height: 64,
     width: 64,
@@ -131,7 +147,7 @@ const estilos = StyleSheet.create({
     position: "absolute",
     bottom: 0,
     right: 0,
-    shadowColor: "#000",
+    shadowColor: "#ff1dc7ff",
     shadowOffset: {
       width: 0,
       height: 2,
