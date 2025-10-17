@@ -106,7 +106,8 @@ const estilos = StyleSheet.create({
   modalSubTitulo: {
     fontSize: 14,
     marginBottom: 8,
-    fontWeight: "600"
+    fontWeight: "600",
+     color: "#74044eff",
   },
   modalBotoes: {
     flexDirection: "row",
