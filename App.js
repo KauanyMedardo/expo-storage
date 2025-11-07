@@ -1,20 +1,38 @@
 import { SafeAreaView, StatusBar, StyleSheet } from "react-native"
 import NotaEditor from "./src/componentes/NotaEditor"
+import {Nota} from "./src/componentes/Nota"
+import { useState, useEffect } from "react"
+import {criaTabela} from "./src/servicos/Notas";
 
 export default function App() {
-  return (
+
+  useEffect(()=>{
+    criaTabela()
+  },[])
+
+  const [notas, setNotas] = useState([])
+
+  async function mostraNotas () {
+    const todasNotas = await buscarNotas()
+    setNotas(todasNotas)
+    console.log(todasNotas)
+  }
+  
+return (
     <SafeAreaView style={estilos.container}>
-      <NotaEditor/>
+      <FlatList
+      data={notas}
+      renderItem={(nota) => <Nota {...nota}/>}
+      keyExtractor={nota => nota[0]}/>
+      <NotaEditor mostraNotas ={mostraNotas}/>
       <StatusBar/>
     </SafeAreaView>
   )
 }
-
 const estilos = StyleSheet.create({
-	container: {
-		flex: 1,
-		alignItems: "stretch",
-		justifyContent: "flex-start",
-	},
+  container: {
+    flex: 1,
+    alignItems: "stretch",
+    justifyContent: "flex-start",
+  },
 })
-
